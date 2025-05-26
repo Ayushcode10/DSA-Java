@@ -1,59 +1,52 @@
 package com.RecursionQuestions.Permutations;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.jar.Attributes;
 
 public class permutation {
     public static void main(String[] args) {
         String s = "abc";
-        ArrayList<String> ans = new ArrayList<>();
-        System.out.println(perCount("",s,0));
-
+        System.out.println(perCount("",s));
     }
-
-    public static void per(String p, String up){
+    public static void permute(String p, String up){
         if(up.isEmpty()){
-            System.out.println(p);
+            System.out.print(p+", ");
             return;
         }
-
         char ch = up.charAt(0);
-
         for (int i = 0; i <=p.length(); i++) {
-            String f = p.substring(0,i);
-            String s = p.substring(i);
-            per(f+ch+s,up.substring(1));
+            String first = p.substring(0,i);
+            String second = p.substring(i,p.length());
+            permute(second+ch+first,up.substring(1));
         }
     }
-
-    public static ArrayList<String> per1(String p, String up, ArrayList<String> res){
+    public static ArrayList<String> permuteList(String p, String up){
         if(up.isEmpty()){
-            res.add(p);
-            return res;
+            ArrayList<String> list = new ArrayList<>();
+            list.add(p);
+            return list;
         }
-
         char ch = up.charAt(0);
-
+        //local to this call
+        ArrayList<String> res = new ArrayList<>();
         for (int i = 0; i <=p.length(); i++) {
-            String f = p.substring(0,i);
-            String s = p.substring(i);
-            per1(s+ch+f,up.substring(1),res);
+            String first = p.substring(0,i);
+            String second = p.substring(i,p.length());
+            res.addAll(permuteList(second+ch+first,up.substring(1)));
         }
         return res;
     }
-
-    public static int perCount(String p, String up,int count){
+    public static int perCount(String p, String up){
         if(up.isEmpty()){
-            return count+1;
+            return 1;
         }
-
-        char ch = up.charAt(0);
-        for (int i = 0; i <=p.length(); i++) {
+        int count = 0;
+        char c = up.charAt(0);
+        for (int i = 0; i <= p.length(); i++) {
             String f = p.substring(0,i);
-            String s = p.substring(i);
-            count = perCount(s+ch+f,up.substring(1),count);
+            String s = p.substring(i,p.length());
+            count += perCount(f+c+s,up.substring(1));
         }
         return count;
     }
+
 }

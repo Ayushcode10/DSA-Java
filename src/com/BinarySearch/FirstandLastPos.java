@@ -5,10 +5,53 @@ import java.util.Arrays;
 public class FirstandLastPos {
     public static void main(String[] args) {
         int[] nums = {1,2,2,2,3,5,6,7};
-        int[] ans = SearchRange(nums,2);
-        System.out.println(Arrays.toString(ans));
+        System.out.println(Arrays.toString(retrange(nums,2)));
+//        System.out.println(Arrays.toString(ans));
     }
 
+    public static int[] retrange(int[] arr, int target){
+        return new int[]{checkFirst(arr,target), checkLast(arr,target)};
+    }
+
+    public static int checkFirst(int[] arr, int target){
+        int s = 0;
+        int e = arr.length-1;
+        int o1 = -1;
+        while(s<=e){
+            int m = s+(e-s)/2;
+            if(arr[m]==target){
+                o1 = m;
+                e = m-1;
+            }
+            else if(arr[m] < target){
+                s = m+1;
+            }
+            else{
+                e = m-1;
+            }
+        }
+        return o1;
+    }
+
+    public static int checkLast(int[] arr, int target){
+        int s = 0;
+        int e = arr.length-1;
+        int o1 = -1;
+        while(s<=e){
+            int m = s+(e-s)/2;
+            if(arr[m]==target){
+                o1 = m;
+                s = m+1;
+            }
+            else if(arr[m] < target){
+                s = m+1;
+            }
+            else{
+                e = m-1;
+            }
+        }
+        return o1;
+    }
     public static int[] SearchRange(int[] nums, int target) {
         int[] ans = {-1, -1};
         ans[0] = search(nums, target, true);

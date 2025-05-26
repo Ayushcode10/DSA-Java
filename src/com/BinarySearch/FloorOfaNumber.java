@@ -4,8 +4,8 @@ public class FloorOfaNumber {
     /* Floor of a number: The smallest number less than or equal to the target value
      *  Floor<=target*/
         public static void main(String[] args) {
-            int[] arr = {2,3,4,5,7,8};
-            System.out.println(Floor(arr,1 ));
+            int[] arr = {2,3,4,5,7,7,7,7,8};
+            System.out.println(Floor(arr,7 ));
 
         }
         public static int Floor(int[] arr, int target){

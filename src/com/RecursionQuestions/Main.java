@@ -1,11 +1,13 @@
 package com.RecursionQuestions;
 
-import java.util.Arrays;
+import com.OOPS.AccessControls.A;
+
+import java.util.*;
 
 public class Main{
     public static void main(String[] args) {
-        int[] arr = {5,4,3,2,1,6,7,8};
-        System.out.println(Arrays.toString(s(arr)));
+        int[] arr = {1,2,2};
+        System.out.println(subDuplicate(arr));
     }
 
     public static int[] sort(int[] arr){
@@ -90,5 +92,107 @@ public class Main{
         return mix;
     }
 
+    public static void subSeq(String p, String up){
+        if(up.isEmpty()){
+            System.out.println(p);
+            return;
+        }
+        char ch = up.charAt(0);
+        subSeq(p + ch,up.substring(1));
+        subSeq(p,up.substring(1));
 
+    }
+    public static ArrayList<String> subSeq2(String p, String up,ArrayList<String> a){
+//        ArrayList<String> a = new ArrayList<>();
+        if(up.isEmpty()){
+            a.add(p);
+            return a;
+        }
+        char ch = up.charAt(0);
+        subSeq2(p + ch,up.substring(1),a);
+        subSeq2(p,up.substring(1),a);
+        return a;
+    }
+    public static void ascii(String p, String up){
+//        ArrayList<String> a = new ArrayList<>();
+        if(up.isEmpty()){
+            System.out.println(p);
+            return;
+        }
+        char ch = up.charAt(0);
+        ascii(p + ch,up.substring(1));
+        ascii(p,up.substring(1));
+        ascii(p + (ch+0) ,up.substring(1));
+    }
+
+    public static List<List<Integer>> subset(int[] arr){
+        List<List<Integer>> outer = new ArrayList<>();
+        outer.add(new ArrayList<>());
+        for(int i : arr){
+            int n = outer.size();
+            for (int j = 0; j < n; j++) {
+                List<Integer> internal  = new ArrayList<>(outer.get(j));
+                internal.add(i);
+                outer.add(internal);
+            }
+        }
+        return outer;
+    }
+
+    public static List<List<Integer>> subsetRecursive(int[] arr){
+        List<List<Integer>> res  = new ArrayList<>();
+        generateSubsets(arr,0,new ArrayList<>(),res);
+        return res;
+    }
+    private static void generateSubsets(int[] arr,int index,List<Integer> curr, List<List<Integer>> res){
+        if(index == arr.length){
+            res.add(new ArrayList<>(curr));
+            return;
+        }
+
+        generateSubsets(arr,index+1,curr,res);
+        curr.add(arr[index]);
+        generateSubsets(arr,index+1,curr,res);
+        curr.remove(curr.size()-1);
+    }
+    //subsets with duplicate elements
+
+    public static List<List<Integer>> subDuplicate(int[] arr){
+        Arrays.sort(arr);
+        List<List<Integer>> res = new ArrayList<>();
+        genDpli(arr,0,new ArrayList<>(), res);
+        Set<List<Integer>> uniqueSubsets = new HashSet<>(res);
+        return new ArrayList<>(uniqueSubsets);
+//        Arrays.sort(arr);
+//        List<List<Integer>> outer = new ArrayList<>();
+//        outer.add(new ArrayList<>());
+//        int start = 0, end = 0;
+//        for(int i=0;i<arr.length;i++){
+//            start = 0;
+//            //if curr and prev element is same then s = e+1;
+//            if(i>0 && arr[i] == arr[i-1]){
+//                start = end+1;
+//            }
+//            int n = outer.size();
+//            end = n-1;
+//            for(int j=start;j<n;j++){
+//                List<Integer> inner = new ArrayList<>(outer.get(j));
+//                inner.add(arr[i]);
+//                outer.add(inner);
+//            }
+//        }
+//        return outer;
+    }
+
+    public static void genDpli(int[] arr, int i, List<Integer> curr,List<List<Integer>> res){
+        if(i == arr.length){
+            res.add(new ArrayList<>(curr));
+            return;
+        }
+        genDpli(arr,i+1,curr,res);
+
+            curr.add(arr[i]);
+            genDpli(arr,i+1,curr,res);
+            curr.remove(curr.size()-1);
+    }
 }
